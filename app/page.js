@@ -147,7 +147,7 @@ export default function Home() {
         <Typography variant="h2" color="#ffffff">Pantry Items</Typography>
         </Box>
       
-        <Stack width="800px" height="300px" spacing={2} overflow="auto">
+        <Stack width="800px" height="300px" overflow="auto">
           {
             filteredPantry.map(({name, quantity}) => (
               <Box key={name} 
@@ -157,6 +157,7 @@ export default function Home() {
               alignItems="center" 
               justifyContent="space-between" 
               bgcolor="#f0f0f0"
+              border="0.5px solid #ccc"
               padding={5}>
                 <Typography variant="h3" color="#333" textAlign="center">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
                 <Typography variant="h3" color="#333" textAlign="center">{quantity}</Typography>
