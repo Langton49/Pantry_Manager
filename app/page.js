@@ -10,6 +10,12 @@ export default function Home() {
   const [pantry, setPantry] = useState([]);
   const [open, setOpen] = useState(false);
   const [itemName, setItemName] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [searchPantry, search] = useState('');
+
+  const filteredPantry = pantry.filter((item) =>
+    item.name.toLowerCase().includes(searchPantry.toLowerCase())
+  );
 
   const updatePantry = async () => {
     const snapshot = query(collection(firestore, 'inventory'));
@@ -39,7 +45,7 @@ export default function Home() {
     await updatePantry();
   }
 
-  const addItem = async (item) =>{
+  const addItem = async (item, quantity) =>{
     const docRef = doc(collection(firestore, 'inventory'), item);
     const docSnap = await getDoc(docRef);
 
@@ -47,7 +53,7 @@ export default function Home() {
         const {quantity} = docSnap.data();
         await setDoc(docRef, {quantity: quantity + 1});
     } else{
-      await setDoc(docRef, {quantity: 1});
+      await setDoc(docRef, {quantity: quantity});
     }
     await updatePantry();
   }
@@ -75,6 +81,7 @@ export default function Home() {
           width={400}
           bgcolor="white"
           border="2px solid #000"
+          borderRadius="15px"
           boxShadow={24}
           p={4}
           display="flex"
@@ -86,27 +93,47 @@ export default function Home() {
             <Typography variant="h6">Add Item</Typography>
             <Stack width="100%" direction="row" spacing={2}>
               <TextField
+              label="Item"
               variant="outlined"
               fullWidth
               value={itemName}
               onChange={(e)=>{
                 setItemName(e.target.value);
               }}/>
-              <Button
+            </Stack>
+            <TextField 
+            variant="outlined"
+            type="number"
+            label="Quantity"
+            fullWidth
+            value={quantity}
+            onChange={(e)=>{
+              setQuantity(e.target.value);
+            }}/>
+            <Button
               variant="outlined"
               onClick={() => {
-                addItem(itemName);
+                addItem(itemName, quantity);
+                setQuantity('');
                 setItemName('');
                 handleClose();
               }}
               > Add</Button>
-            </Stack>
           </Box> 
         </Modal>
         <Button variant="contained" onClick={()=>{
         handleOpen();
       }}>Add New Item</Button>
-      <Box border="1px solid #333">
+        <Stack direction="row" spacing={3}>
+          <TextField variant="outlined"
+           fullWidth 
+           value={searchPantry}
+           placeholder="Search Items"
+           onChange={(e)=>{
+            search(e.target.value);
+           }}/>
+        </Stack>
+      <Box border="1px solid #333" borderRadius="15px" overflow="hidden">
         <Box 
         width="800px"
         height="100px"
@@ -119,7 +146,7 @@ export default function Home() {
       
         <Stack width="800px" height="300px" spacing={2} overflow="auto">
           {
-            pantry.map(({name, quantity}) => (
+            filteredPantry.map(({name, quantity}) => (
               <Box key={name} 
               width="100%" 
               minHeight="150px" 
