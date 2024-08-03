@@ -1,5 +1,6 @@
 'use client'
 import Image from "next/image";
+import Head from 'next/head';
 import { useState, useEffect } from "react";
 import {firestore} from '@/firebase';
 import { Box, Modal, Stack, TextField, Typography, Button } from "@mui/material";
@@ -65,7 +66,12 @@ export default function Home() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  return (<Box 
+  return (
+    <>
+    <Head>
+    <title>Pantry Management</title>
+    </Head> 
+    <Box 
       width="100vw"
       height="100vh" 
       display="flex" 
@@ -166,5 +172,6 @@ export default function Home() {
         </Stack>
         </Box>
   </Box>
+  </>
   );
 }
