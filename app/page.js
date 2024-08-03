@@ -68,9 +68,6 @@ export default function Home() {
 
   return (
     <>
-    <Head>
-    <title>Pantry Management</title>
-    </Head> 
     <Box 
       width="100vw"
       height="100vh" 
