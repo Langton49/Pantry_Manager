@@ -11,7 +11,7 @@ export default function Home() {
   const [pantry, setPantry] = useState([]);
   const [open, setOpen] = useState(false);
   const [itemName, setItemName] = useState('');
-  const [quantity, setQuantity] = useState('');
+  const [numberOfItems, setQuantity] = useState('');
   const [searchPantry, search] = useState('');
 
   const filteredPantry = pantry.filter((item) =>
@@ -46,7 +46,7 @@ export default function Home() {
     await updatePantry();
   }
 
-  const addItem = async (item, quantity) =>{
+  const addItem = async (item, num) =>{
     const docRef = doc(collection(firestore, 'inventory'), item);
     const docSnap = await getDoc(docRef);
 
@@ -54,7 +54,7 @@ export default function Home() {
         const {quantity} = docSnap.data();
         await setDoc(docRef, {quantity: quantity + 1});
     } else{
-      await setDoc(docRef, {quantity: quantity});
+      await setDoc(docRef, {quantity: parseInt(num)});
     }
     await updatePantry();
   }
@@ -109,14 +109,14 @@ export default function Home() {
             type="number"
             label="Quantity"
             fullWidth
-            value={quantity}
+            value={numberOfItems}
             onChange={(e)=>{
               setQuantity(e.target.value);
             }}/>
             <Button
               variant="outlined"
               onClick={() => {
-                addItem(itemName, quantity);
+                addItem(itemName, numberOfItems);
                 setQuantity('');
                 setItemName('');
                 handleClose();
