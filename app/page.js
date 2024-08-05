@@ -140,7 +140,7 @@ export default function Home() {
         <Box 
         width="800px"
         height="100px"
-        bgcolor="#f32f4e"
+        bgcolor="#05b5fc"
         display="flex"
         alignItems="center"
         justifyContent="center">
@@ -156,8 +156,8 @@ export default function Home() {
               display="flex" 
               alignItems="center" 
               justifyContent="space-between" 
-              bgcolor="#f0f0f0"
-              border="0.5px solid #ccc"
+              bgcolor="#96f2ff"
+              border="0.5px solid #222"
               padding={5}>
                 <Typography variant="h3" color="#333" textAlign="center">{name.charAt(0).toUpperCase() + name.slice(1)}</Typography>
                 <Typography variant="h3" color="#333" textAlign="center">{quantity}</Typography>
